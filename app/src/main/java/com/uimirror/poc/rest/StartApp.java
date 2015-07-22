@@ -4,11 +4,6 @@ package com.uimirror.poc.rest;
  * Created by jpradhan on 7/20/15.
  */
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.uimirror.poc.rest.conf.AppConfig;
 import com.uimirror.poc.rest.conf.BeanInitalizer;
 import com.uimirror.poc.rest.conf.WebAppInitializer;
@@ -20,13 +15,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
 
 
 /**
