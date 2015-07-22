@@ -85,35 +85,19 @@ subprojects {
     }
 }
 
-task copyScripts(type: Copy) {
-    from 'script'
-    into "$buildDir/scripts"
-}
-
-task copyDoc(type: Copy) {
-    from 'doc'
-    into "$buildDir/docs"
-}
 
 apply plugin: 'distribution'
 distributions {
     main {
         baseName = project.name
         contents {
-            from { project(':uim-reach-api-conf').installApp }
+            from { project(':app').installApp }
             into('lib') {
-                from { project(':uim-reach-api-conf').configurations.runtime }
-            }
-            into('docs'){
-                from { copyDoc}
-            }
-            into('scripts'){
-                fileMode = 0755
-                from { copyScripts }
+                from { project(':app').configurations.runtime }
             }
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
     }
 }
 
-defaultTasks 'clean', 'build', 'intsall', 'distZip'
+defaultTasks 'clean', 'build', 'distZip'

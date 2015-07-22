@@ -55,4 +55,17 @@ public class SomeResource {
         hello.setMessage("Hello Old School Boy!!!");
         return hello;
     }
+
+    @GET
+    @Path("over")
+    @ApiOperation(value = "Gets the Client details from the given client ID.", response = Hello.class)
+    @ApiResponses({
+            @ApiResponse(code = _200, message = "If Some Test Hello. ")
+    })
+    public final Hello sayHeloToOverload(){
+        Hello hello = new Hello();
+        hello.setVersion("V1");
+        hello.setMessage("Hello Old School Boy overloaded!!!");
+        return hello;
+    }
 }

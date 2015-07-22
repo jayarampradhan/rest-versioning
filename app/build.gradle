@@ -39,8 +39,7 @@ mainClassName = "com.uimirror.poc.rest.StartApp"
 
 jar {
     manifest {
-        attributes "Implementation-Title": "UIM Rest Version POC"
-        attributes "Implementation-Vendor": "UIMIRROR"
+        attributes "Implementation-Title": "Rest Version POC"
         attributes "Implementation-Version": project.version
         attributes "Main-Class": mainClassName
     }
@@ -49,7 +48,7 @@ jar {
 description = "UIM Rest Version."
 applicationDefaultJvmArgs = ["-Denv=dev"
                              , "-DcontextSource=classpath:application"
-                             , "-Dport=8080"
+                             , "-Dport=8181"
                              , "-Dnio.port=8443"
                              , "-Xmx256m"
                              , "-XX:MaxNewSize=2g"
