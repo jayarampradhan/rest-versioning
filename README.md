@@ -18,9 +18,12 @@ the solution:
 # Approaches
 ## Extending Resources
 ### Concept
+
 - To have code re-usability, we can extend the base resource class, and change the base path in the child to point to 
 the new version, override the methods which has changed the functionality.
+
 ### Challenges
+
 - All works well, but when we come across problem of method overloading, for example in new api we are introducing 
 some new Query Parameter or request body payload, then we will end up with duplicate resource issue. 
 As inherited method will have same path as of overloaded method which will end up into issue.
