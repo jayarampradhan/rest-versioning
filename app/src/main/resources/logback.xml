@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <property resource="application-${env:-dev}.properties" />
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <Pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(-){faint} %clr([%15.15t{14}]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n%wex</Pattern>
+        </encoder>
+    </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(-){faint} %clr([%15.15t{14}]){faint} %clr(%logger){cyan} %clr(-){faint} %clr(%M){faint} %clr(-){faint} %clr(%L){faint} %clr(:){faint} %m%n%wex</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/var/jerssey_${application.id}/request.trace.${PID}.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${app.dir}/var/uim_${application.id}/request.trace.${PID}.{yyyy-MM-dd}.%d.log
+            </fileNamePattern>
+            <maxHistory>50</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>16MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d %r %5p [%t] %c - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APPLICATION"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/var/uim_${application.id}/application.${PID}.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}var/uim_${application.id}/application.${PID}.{yyyy-MM-dd}.%d.log
+            </fileNamePattern>
+            <maxHistory>50</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>16MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d %r %5p [%t] %c - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNCROLLING" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ROLLING" />
+    </appender>
+
+    <appender name="ASYNCAPPLICATION" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="APPLICATION" />
+    </appender>
+
+    <logger name="org.springframework" level="${log.level}" />
+    <logger name="org.springframework.aop" level="${log.level}" />
+    <logger name="org.springframework.web" level="${log.level}" />
+    <logger name="org.springframework.boot" level="${log.level}" />
+    <logger name="org.apache.catalina" level="${log.level}" />
+
+    <logger name="com.uimirror.poc.rest" level="${log.level}" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <root level="${log.level}">
+        <appender-ref ref="ASYNCAPPLICATION" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

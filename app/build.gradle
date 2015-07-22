@@ -1,0 +1,67 @@
+apply plugin:'application'
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.apache.tomcat.embed') {
+            details.useVersion '8.0.14'
+        }
+    }
+}
+
+dependencies {
+    //compile project(':uim-reach-api-core')
+    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: jerseyVersion
+    compile (group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: jerseyVersion){
+        exclude module: 'spring-web'
+    }
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-processing', version: jerseyVersion
+    compile (group: 'javax', name: 'javaee-api', version: javaeeApiVersion)
+
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion){
+        exclude module: 'jackson-databind'
+        exclude module: 'spring-webmvc'
+        exclude module: 'spring-web'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'jboss-logging'
+        exclude module: 'jul-to-slf4j'
+    }
+
+    compile (group: 'com.owlike', name: 'genson', version: gensonVersion)
+    //Swagger UI Depedancy
+    compile (group: 'io.swagger', name: 'swagger-jaxrs', version: swaggerVersion){
+        exclude module: 'jsr311-api'
+    }
+    compile(group: "com.github.fge", name: "json-patch", version: jsonPatchVersion);
+
+}
+
+mainClassName = "com.uimirror.poc.rest.StartApp"
+
+jar {
+    manifest {
+        attributes "Implementation-Title": "UIM Rest Version POC"
+        attributes "Implementation-Vendor": "UIMIRROR"
+        attributes "Implementation-Version": project.version
+        attributes "Main-Class": mainClassName
+    }
+}
+
+description = "UIM Rest Version."
+applicationDefaultJvmArgs = ["-Denv=dev"
+                             , "-DcontextSource=classpath:application"
+                             , "-Dport=8080"
+                             , "-Dnio.port=8443"
+                             , "-Xmx256m"
+                             , "-XX:MaxNewSize=2g"
+                             , "-XX:NewSize=1g"
+                             , "-XX:SurvivorRatio=16"
+                             , "-XX:+UseParNewGC"
+                             , "-XX:+UseConcMarkSweepGC"
+                             , "-XX:MaxTenuringThreshold=0"
+                             , "-XX:CMSInitiatingOccupancyFraction=60"
+                             , "-XX:+CMSParallelRemarkEnabled"
+                             , "-XX:+UseCMSInitiatingOccupancyOnly"
+                             , "-XX:ParallelGCThreads=12"
+                             , "-XX:LargePageSizeInBytes=256m"]
+
+defaultTasks 'clean', 'build', 'intsall'

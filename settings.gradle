@@ -1,0 +1,5 @@
+rootProject.name = 'rest-versioning'
+
+include ':app'
+
+project(':app').projectDir = "$rootDir/app" as File
